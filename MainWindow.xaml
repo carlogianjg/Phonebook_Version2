@@ -50,31 +50,34 @@
         <Label Content="View Contacts" Grid.Row="1" Foreground="White" FontSize="25"  FontWeight="Light"  Padding="700,20,0,0" Grid.ColumnSpan="2"/>
 
         <Label Content="First Name" Grid.Row="2" Foreground="White"  FontSize="22" Padding="10" Margin="12,0,0,0"/>
-        <TextBox x:Name="FirstName"
+        <TextBox Text="{Binding SelectedItem.FirstName, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            x:Name="FirstName"
             Grid.Row="3" 
             Width="350" 
             HorizontalAlignment="Left" 
             Background="#46637f" 
             BorderThickness="0" 
-            Margin="24,4,0,4"/>
+            Margin="24,0,0,4"/>
 
         <Label Content="Middle Name" Grid.Row="4" Foreground="White"  FontSize="22" Padding="10" Margin="12,0,130,0"/>
-        <TextBox x:Name="MiddleName"
+        <TextBox Text="{Binding SelectedItem.MiddleName, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            x:Name="MiddleName"
             Grid.Row="5"  
             Width="350" 
             HorizontalAlignment="Left" 
             Background="#46637f" 
             BorderThickness="0" 
-            Margin="24,4,0,4"/>
+            Margin="24,0,0,4"/>
 
         <Label Content="Last Name" Grid.Row="6" Foreground="White"  FontSize="22" Padding="10" Margin="12,0,126,0" />
-        <TextBox x:Name="LastName"
+        <TextBox Text="{Binding SelectedItem.LastName, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            x:Name="LastName"
             Grid.Row="7" 
             Width="350" 
             HorizontalAlignment="Left" 
             Background="#46637f" 
             BorderThickness="0" 
-            Margin="24,4,0,4"/>
+            Margin="24,0,0,4"/>
 
         <Label Content="Gender" Grid.Row="10" Foreground="White" FontSize="22" Padding="10" Margin="12,0,0,0"/>
 
@@ -83,31 +86,30 @@
         </StackPanel>
 
         <Label Content="Phone Number" Grid.Row="8" Foreground="White"  FontSize="22" Padding="10" Margin="12,0,126,0" />
-        <TextBox x:Name="PhoneNumber"
+        <TextBox Text="{Binding SelectedItem.Mobile, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            x:Name="PhoneNumber"
             Grid.Row="9" 
             Width="350" 
             HorizontalAlignment="Left" 
             Background="#46637f" 
             BorderThickness="0" 
-            Margin="24,4,0,4"/>
+            Margin="24,0,0,4"/>
 
-        <RadioButton x:Name="GenderMale"
-            Content="Male" 
+        <ComboBox x:Name="Gender"
             Grid.Row="11" 
-            Foreground="White" 
-            Margin="20,0,0,0" 
-            FontSize="20" />
+            BorderThickness="0"
+            Margin="24,0,125,0"
+            Background="#46637F"
+            Text="{Binding SelectedItem.Gender, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-        <RadioButton x:Name="GenderFemale"
-            Content="Female" 
-            Grid.Row="11" 
-            Foreground="White" 
-            Margin="150,0,0,0" 
-            FontSize="20"/>
+            <ComboBoxItem x:Name="male" Content="male" />
+            <ComboBoxItem x:Name="female" Content="female"/>
+        </ComboBox>
 
         <StackPanel Grid.Row="13" HorizontalAlignment="Left" Orientation="Horizontal">
 
             <Button x:Name="BtnSave"
+                Click="add_contact"    
                 Content="Save" 
                 Width="100"
                 Margin="15,0,30,0" 
@@ -117,7 +119,9 @@
                 FontSize="18" 
                 ClickMode="Release" 
                 RenderTransformOrigin="0.5,0.5" />
+
             <Button x:Name="BtnUpdate"
+                Click="update_contact"    
                 Margin="0, 0, 30, 0"    
                 Content="Update" 
                 Width="100" 
@@ -127,14 +131,15 @@
                 FontSize="18" 
                 ClickMode="Release" 
                 RenderTransformOrigin="0.25,0.593" />
+
             <Button x:Name="BtnDelete"
                 Content="Delete" 
+                Click="delete_contact"
                 Width="100" 
                 Foreground="White" 
                 Background="DarkRed" 
                 BorderThickness="0" 
                 FontSize="18" 
-                ClickMode="Release" 
                 RenderTransformOrigin="1.202,0.433" />
 
         </StackPanel>
@@ -148,16 +153,52 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </StackPanel.RenderTransform>
-            
+
         </StackPanel>
 
-        <DataGrid Name="DisplayView"
-                AutoGenerateColumns="True"
-                Margin="472,4,38,0" 
-                Grid.RowSpan="11" 
-                Grid.Row="3" 
-                Background="#46637f" 
-                Grid.ColumnSpan="2"/>
+        <TextBox Grid.Column="1" 
+                 Margin="50,0,50,0" 
+                 Grid.Row="3"
+                 VerticalAlignment="Top"
+                 Background="#46637f"
+                 Name="searchContact" TextChanged="searchContact_txtChanged"
+                 ToolTip="Search Contact"
+                 Foreground="White" Height="40"
+                 VerticalScrollBarVisibility="Auto"
+                 BorderThickness="0"
+                 />
+
+
+        <ListView x:Name="Details" 
+                  Grid.Row="4"  
+                  ItemsSource="{Binding ListOfContacts}" 
+                  Margin="50,10,50,10" 
+                  Grid.Column="1" 
+                  Grid.RowSpan="10" 
+                  Background="#46637f" 
+                              >
+
+
+            <ListView.View>
+
+
+
+                <GridView 
+                    x:Name="DisplayView">
+
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding id}"  Width="Auto" />
+                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}"  Width="Auto" />
+                    <GridViewColumn Header="Middle Name" DisplayMemberBinding="{Binding MiddleName}" Width="Auto" />
+                    <GridViewColumn Header="Last Name" DisplayMemberBinding="{Binding LastName}" Width="Auto" />
+                    <GridViewColumn Header="Phone Number" DisplayMemberBinding="{Binding PhoneNumber}" Width="Auto" />
+                    <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}" Width="Auto" />
+                </GridView>
+            </ListView.View>
+
+
+
+        </ListView>
+
 
     </Grid>
 </Window>
