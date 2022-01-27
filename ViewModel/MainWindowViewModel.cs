@@ -25,17 +25,14 @@ namespace PhonebookDB.ViewModel
         public RelayCommand UpdateCommand { get; set; }
         public RelayCommand AddCommand { get; set; }
    
-
         private string connectionString;
         private SqlConnection conn;
         private SqlCommand cmd_fill;
 
-
-
         public MainWindowVM()
         {
 
-            connectionString = @"Data Source=localhost; Initial Catalog = PhonebookDB; Integrated Security=True";
+            connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PhonebookDB;";
             conn = new SqlConnection(connectionString);
 
             conn.Open();
@@ -76,9 +73,6 @@ namespace PhonebookDB.ViewModel
                 conn.Dispose();
             }
 
-
-
-
             AddCommand = new RelayCommand(AddMethod, CanSave => true);
             UpdateCommand = new RelayCommand(UpdateMethod);
 
@@ -116,10 +110,6 @@ namespace PhonebookDB.ViewModel
             cmd.Parameters.AddWithValue("@LastName", c.LastName);
             cmd.Parameters.AddWithValue("@PhoneNumber", c.PhoneNumber);
             cmd.Parameters.AddWithValue("@Gender", c.Gender);
-
-
-
-            
 
         }
 

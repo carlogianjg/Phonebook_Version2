@@ -86,7 +86,7 @@
         </StackPanel>
 
         <Label Content="Phone Number" Grid.Row="8" Foreground="White"  FontSize="22" Padding="10" Margin="12,0,126,0" />
-        <TextBox Text="{Binding SelectedItem.Mobile, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding SelectedItem.PhoneNumber, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             x:Name="PhoneNumber"
             Grid.Row="9" 
             Width="350" 
@@ -98,7 +98,7 @@
         <ComboBox x:Name="Gender"
             Grid.Row="11" 
             BorderThickness="0"
-            Margin="24,0,125,0"
+            Margin="24,0,125,4"
             Background="#46637F"
             Text="{Binding SelectedItem.Gender, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
@@ -176,6 +176,7 @@
                   Grid.Column="1" 
                   Grid.RowSpan="10" 
                   Background="#46637f" 
+                  Foreground="white"
                               >
 
 

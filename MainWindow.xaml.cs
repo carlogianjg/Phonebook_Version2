@@ -33,7 +33,7 @@ namespace OJT_012022_Activity1_Ver2
         {
             InitializeComponent();
             DataContext = new MainWindowVM();
-            connectionString = @"Data Source=localhost; Initial Catalog = Phonebook; Integrated Security=True";
+            connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PhonebookDB;";
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Details.ItemsSource);
         
         }
@@ -81,7 +81,7 @@ namespace OJT_012022_Activity1_Ver2
                 SqlConnection conn = Connect(connectionString);
                 SqlCommand cmd = Command(conn);
                 cmd.CommandText = "INSERT INTO " +
-                                    "Contacts (FirstName, MiddleName, LastName, PhoneNumber, Gender)" +
+                                    "ListOfContacts (FirstName, MiddleName, LastName, PhoneNumber, Gender)" +
                                     "VALUES (@FirstName, @MiddleName, @LastName, @PhoneNumber, @Gender)";
                 cmd.Parameters.AddWithValue("@FirstName", FirstName.Text);
                 cmd.Parameters.AddWithValue("@MiddleName", MiddleName.Text);
@@ -98,8 +98,6 @@ namespace OJT_012022_Activity1_Ver2
 
 
         }
-
-
 
         public SqlConnection Connect(string connectionString) { return new SqlConnection(connectionString); }
         public SqlCommand Command(SqlConnection conn) { return conn.CreateCommand(); }
@@ -122,8 +120,8 @@ namespace OJT_012022_Activity1_Ver2
             SqlCommand cmd = Command(conn);
             var selectedRow = Details.SelectedItem;
             ListOfContacts req = selectedRow as ListOfContacts;
-            long id = req.id;
-            cmd.CommandText = $"UPDATE Contacts SET FirstName=@FirstName, MiddleName=@MiddleName, LastName=@LastName, PhoneNumber=@PhoneNumber, Gender=@Gender WHERE id= {id} ";
+            int id = req.id;
+            cmd.CommandText = $"UPDATE ListOfContacts SET FirstName=@FirstName, MiddleName=@MiddleName, LastName=@LastName, PhoneNumber=@PhoneNumber, Gender=@Gender WHERE id= {id} ";
             cmd.Parameters.AddWithValue("@FirstName", FirstName.Text);
             cmd.Parameters.AddWithValue("@MiddleName", MiddleName.Text);
             cmd.Parameters.AddWithValue("@LastName", LastName.Text);
@@ -143,8 +141,8 @@ namespace OJT_012022_Activity1_Ver2
             SqlCommand cmd = Command(conn);
             var selectedRow = Details.SelectedItem;
             ListOfContacts req = selectedRow as ListOfContacts;
-            long id = req.id;
-            cmd.CommandText = $"DELETE FROM Contacts WHERE id = {id}";
+            int id = req.id;
+            cmd.CommandText = $"DELETE FROM ListOfContacts WHERE id = {id}";
            
 
         }
