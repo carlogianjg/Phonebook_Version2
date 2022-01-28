@@ -25,8 +25,7 @@ namespace OJT_012022_Activity1_Ver2
     {
 
         private string connectionString;
-
-
+        
         public List <ListOfContacts> MyListOfContacts { get; set; }
 
         public MainWindow()
@@ -35,22 +34,8 @@ namespace OJT_012022_Activity1_Ver2
             DataContext = new MainWindowVM();
             connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PhonebookDB;";
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Details.ItemsSource);
-        
-        }
+            
 
-
-        private bool ContactFilter(object item)
-        {
-            if (String.IsNullOrEmpty(searchContact.Text)) { return true; }
-            else
-            {
-                return ((item as ListOfContacts).FirstName.IndexOf(searchContact.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as ListOfContacts).MiddleName.IndexOf(searchContact.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as ListOfContacts).LastName.IndexOf(searchContact.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as ListOfContacts).PhoneNumber.IndexOf(searchContact.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as ListOfContacts).Gender.IndexOf(searchContact.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    );
-            }
         }
 
         private void searchContact_txtChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -71,6 +56,14 @@ namespace OJT_012022_Activity1_Ver2
         }
 
 
+        public void execute(SqlConnection conn, SqlCommand cmd)
+        {
+            
+                conn.Open();
+                cmd.ExecuteNonQuery();
+  
+        }
+
         public void add_contact(object sender, EventArgs e)
         {
             bool check = fieldChecker(sender, e);
@@ -86,10 +79,12 @@ namespace OJT_012022_Activity1_Ver2
                 cmd.Parameters.AddWithValue("@FirstName", FirstName.Text);
                 cmd.Parameters.AddWithValue("@MiddleName", MiddleName.Text);
                 cmd.Parameters.AddWithValue("@LastName", LastName.Text);
-                cmd.Parameters.AddWithValue("@Gender", PhoneNumber.Text);
-                cmd.Parameters.AddWithValue("@Mobile", Gender.Text);
+                cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber.Text);
+                cmd.Parameters.AddWithValue("@Gender", Gender.Text);
 
-                
+                execute(conn, cmd);
+
+
             }
             else
             {
@@ -117,7 +112,7 @@ namespace OJT_012022_Activity1_Ver2
         public void update_contact(object sender, EventArgs e)
         {
             SqlConnection conn = Connect(connectionString);
-            SqlCommand cmd = Command(conn);
+            SqlCommand cmd = Command (conn);
             var selectedRow = Details.SelectedItem;
             ListOfContacts req = selectedRow as ListOfContacts;
             int id = req.id;
@@ -127,10 +122,8 @@ namespace OJT_012022_Activity1_Ver2
             cmd.Parameters.AddWithValue("@LastName", LastName.Text);
             cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber.Text);
             cmd.Parameters.AddWithValue("@Gender", Gender);
-     
-
             bool check = fieldChecker(sender, e);
-          
+            execute(conn, cmd);
 
         }
 
@@ -143,6 +136,7 @@ namespace OJT_012022_Activity1_Ver2
             ListOfContacts req = selectedRow as ListOfContacts;
             int id = req.id;
             cmd.CommandText = $"DELETE FROM ListOfContacts WHERE id = {id}";
+            execute(conn, cmd);
            
 
         }

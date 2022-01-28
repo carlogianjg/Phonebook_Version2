@@ -55,8 +55,11 @@
             Grid.Row="3" 
             Width="350" 
             HorizontalAlignment="Left" 
-            Background="#46637f" 
-            BorderThickness="0" 
+            Background="#46637f"
+            Foreground="white"
+            FontSize="26"
+            FontWeight="ExtraLight"     
+            BorderThickness="0"      
             Margin="24,0,0,4"/>
 
         <Label Content="Middle Name" Grid.Row="4" Foreground="White"  FontSize="22" Padding="10" Margin="12,0,130,0"/>
@@ -65,7 +68,10 @@
             Grid.Row="5"  
             Width="350" 
             HorizontalAlignment="Left" 
-            Background="#46637f" 
+            Background="#46637f"
+            Foreground="white"
+            FontSize="26"
+            FontWeight="ExtraLight"     
             BorderThickness="0" 
             Margin="24,0,0,4"/>
 
@@ -76,6 +82,9 @@
             Width="350" 
             HorizontalAlignment="Left" 
             Background="#46637f" 
+            Foreground="white"
+            FontSize="26"
+            FontWeight="ExtraLight"     
             BorderThickness="0" 
             Margin="24,0,0,4"/>
 
@@ -91,24 +100,31 @@
             Grid.Row="9" 
             Width="350" 
             HorizontalAlignment="Left" 
-            Background="#46637f" 
+            Background="#46637f"
+            Foreground="white"
+            FontSize="26"
+            FontWeight="ExtraLight"
             BorderThickness="0" 
             Margin="24,0,0,4"/>
 
         <ComboBox x:Name="Gender"
+                  
             Grid.Row="11" 
             BorderThickness="0"
             Margin="24,0,125,4"
             Background="#46637F"
+            IsEnabled="{Binding IsChecked, ElementName=gender}"      
+            ItemsSource="{Binding Gender}"      
             Text="{Binding SelectedItem.Gender, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-            <ComboBoxItem x:Name="male" Content="male" />
-            <ComboBoxItem x:Name="female" Content="female"/>
+            <ComboBoxItem x:Name="male" Content="male" FontSize="18" />
+            <ComboBoxItem x:Name="female" Content="female" FontSize="18"/>
         </ComboBox>
 
         <StackPanel Grid.Row="13" HorizontalAlignment="Left" Orientation="Horizontal">
 
-            <Button x:Name="BtnSave"
+            <Button 
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                 Click="add_contact"    
                 Content="Save" 
                 Width="100"
@@ -120,7 +136,8 @@
                 ClickMode="Release" 
                 RenderTransformOrigin="0.5,0.5" />
 
-            <Button x:Name="BtnUpdate"
+            <Button 
+                x:Name="BtnUpdate"
                 Click="update_contact"    
                 Margin="0, 0, 30, 0"    
                 Content="Update" 
@@ -139,7 +156,7 @@
                 Foreground="White" 
                 Background="DarkRed" 
                 BorderThickness="0" 
-                FontSize="18" 
+                FontSize="18"    
                 RenderTransformOrigin="1.202,0.433" />
 
         </StackPanel>
@@ -153,39 +170,21 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </StackPanel.RenderTransform>
-
         </StackPanel>
 
-        <TextBox Grid.Column="1" 
-                 Margin="50,0,50,0" 
-                 Grid.Row="3"
-                 VerticalAlignment="Top"
-                 Background="#46637f"
-                 Name="searchContact" TextChanged="searchContact_txtChanged"
-                 ToolTip="Search Contact"
-                 Foreground="White" Height="40"
-                 VerticalScrollBarVisibility="Auto"
-                 BorderThickness="0"
-                 />
-
-
-        <ListView x:Name="Details" 
-                  Grid.Row="4"  
-                  ItemsSource="{Binding ListOfContacts}" 
-                  Margin="50,10,50,10" 
+        <ListView ItemsSource="{Binding ListOfContacts, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  x:Name="Details" 
+                  Grid.Row="3"  
+                  Margin="50,0,50,10" 
                   Grid.Column="1" 
-                  Grid.RowSpan="10" 
+                  Grid.RowSpan="11" 
                   Background="#46637f" 
                   Foreground="white"
+                  BorderThickness="0"
                               >
-
-
             <ListView.View>
-
-
-
                 <GridView 
-                    x:Name="DisplayView">
+                    x:Name="DisplayView" >
 
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding id}"  Width="Auto" />
                     <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding FirstName}"  Width="Auto" />
@@ -195,8 +194,6 @@
                     <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}" Width="Auto" />
                 </GridView>
             </ListView.View>
-
-
 
         </ListView>
 
