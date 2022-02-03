@@ -13,6 +13,7 @@ using System.Windows.Input;
 using PhonebookDB.ViewModel;
 using PhonebookDB.Models;
 
+
 namespace PhonebookDB.ViewModel
 {
     public class MainWindowVM : ViewModelBase
@@ -97,14 +98,15 @@ namespace PhonebookDB.ViewModel
 
             string connectionString;
             SqlConnection conn;
-            connectionString = @"Data Source=localhost; Initial Catalog = PhonebookDB; Integrated Security=True";
+            connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PhonebookDB;";
             conn = new SqlConnection(connectionString);
 
 
             SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = "INSERT INTO " +
-                                "Contacts (FirstName, MiddleName, LastName, PhoneNumber, Gender)" +
-                                "VALUES (@FirstName, @MiddleName, @LastName, @PhoneNumber, @Gender)";
+            cmd.CommandText =
+                 //"INSERT INTO " + "ListOfContacts (FirstName, MiddleName, LastName, PhoneNumber, Gender)" + "VALUES (@FirstName, @MiddleName, @LastName, @PhoneNumber, @Gender)";
+                 "INSERT INTO [dbo].[ListOfContacts] ([FirstName], [MiddleName], [LastName], [PhoneNumber], [Gender]) VALUES( @FirstName, @MiddleName, @LastName, @PhoneNumber, @Gender)";
+
             cmd.Parameters.AddWithValue("@FirstName", c.FirstName);
             cmd.Parameters.AddWithValue("@MiddleName", c.MiddleName);
             cmd.Parameters.AddWithValue("@LastName", c.LastName);

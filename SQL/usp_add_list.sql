@@ -9,25 +9,25 @@ GO
 		@Gender NVARCHAR(50) = NULL
 	AS 
 	BEGIN
-		IF NOT EXISTS (SELECT * FROM ListOfContacts WHERE First_Name = @First_Name and 
-		Middle_Name = @Middle_Name and Last_Name = @Last_Name and Phone_Number = @Phone_Number and _Gender = @_Gender)
+		IF NOT EXISTS (SELECT * FROM ListOfContacts WHERE FirstName = @FirstName and 
+		MiddleName = @MiddleName and LastName = @LastName and PhoneNumber = @PhoneNumber and Gender = @Gender)
 			BEGIN
 				SET NOCOUNT ON
 				INSERT INTO dbo.ListOfContacts
 				(
-					First_Name,
-					Middle_NAme,
-					Last_Name,
-					Phone_Number,
-					_Gender
+					FirstName,
+					MiddleNAme,
+					LastName,
+					PhoneNumber,
+					Gender
 				)
 				VALUES 
 				(
-					@First_Name,
-					@Middle_Name,
-					@Last_Name,
-					@Phone_Number,
-					@_Gender
+					@FirstName,
+					@MiddleName,
+					@LastName,
+					@PhoneNumber,
+					@Gender
 				)
 			END
 	END

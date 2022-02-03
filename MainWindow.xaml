@@ -117,8 +117,8 @@
             ItemsSource="{Binding Gender}"      
             Text="{Binding SelectedItem.Gender, ElementName=Details, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-            <ComboBoxItem x:Name="male" Content="male" FontSize="18" />
-            <ComboBoxItem x:Name="female" Content="female" FontSize="18"/>
+            <ComboBoxItem x:Name="M" Content="M" FontSize="18" />
+            <ComboBoxItem x:Name="F" Content="F" FontSize="18"/>
         </ComboBox>
 
         <StackPanel Grid.Row="13" HorizontalAlignment="Left" Orientation="Horizontal">

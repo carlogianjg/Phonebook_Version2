@@ -18,6 +18,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.ComponentModel;
 
+
 namespace OJT_012022_Activity1_Ver2
 {
    
@@ -33,15 +34,16 @@ namespace OJT_012022_Activity1_Ver2
             InitializeComponent();
             DataContext = new MainWindowVM();
             connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PhonebookDB;";
+          //load();
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Details.ItemsSource);
             
 
         }
 
-        private void searchContact_txtChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(Details.ItemsSource).Refresh();
-        }
+       
+        public SqlCommand Command(string sp, SqlConnection conn) { return new SqlCommand(sp, conn); }
+
+
 
         public bool fieldChecker(object sender, EventArgs e)
         {
@@ -61,8 +63,18 @@ namespace OJT_012022_Activity1_Ver2
             
                 conn.Open();
                 cmd.ExecuteNonQuery();
+                //conn.Close();
   
         }
+
+        public SqlCommand addParams(SqlCommand cmd, String[] strlist, String[] txtboxVal)
+        {
+            for (int i = 0; i < strlist.Length; i++) { cmd.Parameters.AddWithValue(strlist[i], txtboxVal[i]); }
+            return cmd;
+        }
+
+
+
 
         public void add_contact(object sender, EventArgs e)
         {
@@ -73,17 +85,17 @@ namespace OJT_012022_Activity1_Ver2
 
                 SqlConnection conn = Connect(connectionString);
                 SqlCommand cmd = Command(conn);
-                cmd.CommandText = "INSERT INTO " +
-                                    "ListOfContacts (FirstName, MiddleName, LastName, PhoneNumber, Gender)" +
-                                    "VALUES (@FirstName, @MiddleName, @LastName, @PhoneNumber, @Gender)";
+                cmd.CommandText = 
+           
+                "INSERT INTO [dbo].[ListOfContacts] ([FirstName], [MiddleName], [LastName], [PhoneNumber], [Gender]) VALUES( @FirstName, @MiddleName, @LastName, @PhoneNumber, @gender)";
+
                 cmd.Parameters.AddWithValue("@FirstName", FirstName.Text);
                 cmd.Parameters.AddWithValue("@MiddleName", MiddleName.Text);
                 cmd.Parameters.AddWithValue("@LastName", LastName.Text);
                 cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber.Text);
-                cmd.Parameters.AddWithValue("@Gender", Gender.Text);
+                cmd.Parameters.AddWithValue("@gender", Gender.Text);
 
                 execute(conn, cmd);
-
 
             }
             else
@@ -93,6 +105,10 @@ namespace OJT_012022_Activity1_Ver2
 
 
         }
+
+
+
+
 
         public SqlConnection Connect(string connectionString) { return new SqlConnection(connectionString); }
         public SqlCommand Command(SqlConnection conn) { return conn.CreateCommand(); }
